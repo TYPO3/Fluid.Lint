@@ -1,0 +1,22 @@
+{
+	"name": "namelesscoder/fluid-lint",
+	"description": "Lint/syntax check for TYPO3.Fluid template files",
+	"license": ["MIT"],
+	"require": {
+		"namelesscoder/fluid": "*"
+	},
+	"require-dev": {
+		"namelesscoder/fluid": "dev-master",
+		"phpunit/phpunit": "*",
+		"mikey179/vfsStream": "*",
+		"satooshi/php-coveralls": "*"
+	},
+	"autoload": {
+		"psr-4": {
+			"TYPO3\\Fluid\\Lint\\": "src/"
+		}
+	},
+	"bin": [
+		"bin/fluidlint"
+	]
+}
