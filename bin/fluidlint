@@ -20,10 +20,13 @@ if (file_exists(__DIR__ . '/../autoload.php')) {
 
 $filesPath = isset($argv[1]) ? $argv[1] : trim(shell_exec('pwd'));
 
-if (!$filesPath)) {
+if (!$filesPath) {
     exitWithError(sprintf('Template path "%s" does not exist or no template path provided!', $filesPath));
 }
 
 $linter = new \TYPO3\Fluid\Lint\FluidTemplateLinter();
 
-echo $linter->lint($filesPath);
+
+list ($message, $code) = $linter->lint($filesPath);
+echo $message;
+exit($code);

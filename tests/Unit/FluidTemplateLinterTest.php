@@ -9,12 +9,49 @@ use TYPO3\Fluid\Lint\FluidTemplateLinter;
 class FluidTemplateLinterTest extends \PHPUnit_Framework_TestCase {
 
 	/**
+	 * @dataProvider getGoodPaths
+	 * @param string $path
 	 * @test
 	 */
-	public function lintReturnsTrue() {
+	public function lintReturnsCodeZeroWhenFilesAreOkay($path) {
 		$instance = new FluidTemplateLinter();
-		$result = $instance->lint('test');
-		$this->assertEquals(TRUE, $result);
+		list ($message, $returnCode) = $instance->lint($path);
+		$this->assertEquals(0, $returnCode);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getGoodPaths() {
+		$base = realpath('tests/Fixtures/Templates/Good/');
+		return array(
+			array($base),
+			array($base . '/*'),
+			array($base . '/Good.html'),
+		);
+	}
+
+	/**
+	 * @dataProvider getBadPaths
+	 * @param string $path
+	 * @test
+	 */
+	public function lintReturnsCodeOneWhenFilesAreNotOkay($path) {
+		$instance = new FluidTemplateLinter();
+		list ($message, $returnCode) = $instance->lint($path);
+		$this->assertEquals(1, $returnCode);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getBadPaths() {
+		$base = realpath('tests/Fixtures/Templates/Bad/');
+		return array(
+			array($base),
+			array($base . '/*'),
+			array($base . '/Bad.html'),
+		);
 	}
 
 }

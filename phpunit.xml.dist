@@ -13,7 +13,7 @@
         verbose="false">
 
         <testsuites>
-                <testsuite name="TYPO3.Fluid.SchemaGenerator Unit">
+                <testsuite name="TYPO3.Fluid.Lint Unit">
                         <directory>tests/Unit</directory>
                 </testsuite>
         </testsuites>
