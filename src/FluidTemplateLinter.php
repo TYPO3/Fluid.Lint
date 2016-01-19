@@ -1,12 +1,25 @@
 <?php
-namespace TYPO3\Fluid\Lint;
-use TYPO3\Fluid\View\TemplateView;
-use TYPO3\Fluid\Core\Parser\TemplateParser;
+namespace TYPO3Fluid\FluidLint;
+
+use TYPO3Fluid\Fluid\Core\Parser\TemplateParser;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 /**
  * Class FluidTemplateLinter
  */
 class FluidTemplateLinter {
+
+	/**
+	 * @var RenderingContextInterface
+	 */
+	protected $renderingContext;
+
+	/**
+	 * @param RenderingContextInterface $renderingContext
+	 */
+	public function __construct(RenderingContextInterface $renderingContext) {
+		$this->renderingContext = $renderingContext;
+	}
 
 	/**
 	 * @param string $filesPath
@@ -86,12 +99,12 @@ class FluidTemplateLinter {
 
 	/**
 	 * @param string $filePath
+	 * @param RenderingContextInterface $renderingContext
 	 * @return boolean
 	 */
 	protected function lintFile($filePath) {
 		try {
-			$templateParser = new TemplateParser();
-			$templateParser->parse(file_get_contents($filePath));
+			$this->renderingContext->getTemplateParser()->parse(file_get_contents($filePath));
 			return FALSE;
 		} catch (\RuntimeException $error) {
 			return $error;
@@ -103,7 +116,9 @@ class FluidTemplateLinter {
 	 * @return array
 	 */
 	protected function resolveFiles($filesPath) {
-		if (is_file($filesPath)) {
+		if (is_array($filesPath)) {
+			return $filesPath;
+		} elseif (is_file($filesPath)) {
 			return array($filesPath);
 		} elseif (strpos($filesPath, '*') !== FALSE) {
 			return glob($filesPath);

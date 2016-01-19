@@ -10,6 +10,9 @@ function exitWithError($message, $code = 1) {
     exit($code);
 }
 
+$arguments = $argv;
+array_shift($arguments);
+
 if (file_exists(__DIR__ . '/../autoload.php')) {
     require_once __DIR__ . '/../autoload.php';
 } elseif (file_exists(__DIR__ . '/../vendor/autoload.php')) {
@@ -18,15 +21,18 @@ if (file_exists(__DIR__ . '/../autoload.php')) {
     require_once __DIR__ . '/../../../autoload.php';
 }
 
-$filesPath = isset($argv[1]) ? $argv[1] : trim(shell_exec('pwd'));
-
+$renderingContextClass = array_pop($arguments);
+if (!is_a($renderingContextClass, \TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface::class, TRUE)) {
+	$arguments[] = $renderingContextClass;
+	$renderingContextClass = \TYPO3Fluid\Fluid\Core\Rendering\RenderingContext::class;
+}
+$renderingContext = new $renderingContextClass(new \TYPO3Fluid\Fluid\View\TemplateView());
+$linter = new \TYPO3Fluid\FluidLint\FluidTemplateLinter($renderingContext);
+$filesPath = count($arguments) ? reset($arguments) : trim(shell_exec('pwd'));
 if (!$filesPath) {
     exitWithError(sprintf('Template path "%s" does not exist or no template path provided!', $filesPath));
 }
 
-$linter = new \TYPO3\Fluid\Lint\FluidTemplateLinter();
-
-
-list ($message, $code) = $linter->lint($filesPath);
+list ($message, $code) = $linter->lint(count($arguments) ? $arguments : trim(shell_exec('pwd')));
 echo $message;
 exit($code);

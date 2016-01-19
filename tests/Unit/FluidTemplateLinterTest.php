@@ -1,7 +1,9 @@
 <?php
-namespace TYPO3\Fluid\Lint\Tests\Unit;
+namespace TYPO3Fluid\FluidLint\Tests\Unit;
 
-use TYPO3\Fluid\Lint\FluidTemplateLinter;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContext;
+use TYPO3Fluid\Fluid\View\TemplateView;
+use TYPO3Fluid\FluidLint\FluidTemplateLinter;
 
 /**
  * Class FluidTemplateLinterTest
@@ -14,7 +16,7 @@ class FluidTemplateLinterTest extends \PHPUnit_Framework_TestCase {
 	 * @test
 	 */
 	public function lintReturnsCodeZeroWhenFilesAreOkay($path) {
-		$instance = new FluidTemplateLinter();
+		$instance = new FluidTemplateLinter(new RenderingContext(new TemplateView()));
 		list ($message, $returnCode) = $instance->lint($path);
 		$this->assertEquals(0, $returnCode);
 	}
@@ -37,7 +39,7 @@ class FluidTemplateLinterTest extends \PHPUnit_Framework_TestCase {
 	 * @test
 	 */
 	public function lintReturnsCodeOneWhenFilesAreNotOkay($path) {
-		$instance = new FluidTemplateLinter();
+		$instance = new FluidTemplateLinter(new RenderingContext(new TemplateView()));
 		list ($message, $returnCode) = $instance->lint($path);
 		$this->assertEquals(1, $returnCode);
 	}

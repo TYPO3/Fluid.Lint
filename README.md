@@ -10,7 +10,7 @@ Installation
 ------------
 
 ```bash
-composer require namelesscoder/fluid-lint
+composer require typo3fluid/fluid-lint
 ```
 
 Usage
@@ -18,4 +18,10 @@ Usage
 
 ```bash
 ./vendor/bin/fluidlint /path/to/files-or-file
+```
+
+If you are linting for a project that uses a custom RenderingContext, specify the RenderingContext class as last argument:
+
+```bash
+./vendor/bin/fluidlint /path/to/files-or-file MyVendor\\MyPackageName\\Rendering\\MyRenderingContext
 ```
