@@ -3,7 +3,7 @@
 	"description": "Lint/syntax check for TYPO3.Fluid template files",
 	"license": ["MIT"],
 	"require": {
-		"typo3fluid/fluid": "^1.0"
+		"typo3/cms-fluid": "*"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "*",
