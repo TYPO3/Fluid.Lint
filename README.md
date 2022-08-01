@@ -6,6 +6,17 @@ Fluid Lint Utility
 
 Checks the basic syntax of Fluid template files.
 
+Archived
+--------
+
+This project has been left unmaintained for years and stalled.
+
+The repository has been archived and is marked abandoned on packagist.org.
+
+In case a general linter of Fluid templates finds general acceptance, an implementation
+should be merged to https://github.com/TYPO3/Fluid directly.
+
+
 Installation
 ------------
 
